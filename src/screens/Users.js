@@ -1,14 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
-import api from '../services/axios';
-import CardUser from '../components/CardUser';
-import Header from '../components/Header';
+import React, { useEffect, useState } from "react";
+import { View, FlatList, StyleSheet } from "react-native";
+import sheets from "../services/axios";
+import CardUser from "../components/CardUser";
+import Header from "../components/Header";
 
 function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    api.get('/users').then((res) => setUsers(res.data));
+    async function fetchUsers() {
+      try {
+        const response = await sheets.getUsers();
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar usuários:", error);
+      }
+    }
+
+    fetchUsers();
   }, []);
 
   return (
@@ -21,8 +30,8 @@ function Users() {
           <CardUser
             name={item.name}
             email={item.email}
-            company={item.company.name}
-            zipcode={item.address.zipcode}
+            company={item.company?.name}
+            zipcode={item.address?.zipcode}
           />
         )}
       />
@@ -34,7 +43,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: '#f7ecfbff',
+    backgroundColor: "#f7ecfbff",
   },
 });
 

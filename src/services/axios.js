@@ -6,11 +6,11 @@ const api = axios.create({
     accept: "application/json",
   },
 });
-const sheets = {
-    getUsers:()=>api.get("posts/"),
-    getTodos:() => api.get("todo/"),
-    getPosts:() => api.get("posts/1")
- 
-}
 
-export default api;
+const sheets = {
+  getUsers: () => api.get("users/"),    // corrigido endpoint correto para users
+  getTodos: () => api.get("todos/"),    // endpoint correto 'todos' e não 'todo'
+  getPosts: () => api.get("posts/"),
+};
+
+export default sheets;

@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
-import api from '../services/axios';
-import CardTodos from '../components/CardTodo';
-import Header from '../components/Header';
+import React, { useEffect, useState } from "react";
+import { View, FlatList, StyleSheet } from "react-native";
+import sheets from "../services/axios";
+import CardTodos from "../components/CardTodo";
+import Header from "../components/Header";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    api.get('/todos').then(response => setTodos(response.data));
-    api.get('/users').then(response => setUsers(response.data));
+    async function loadData() {
+      try {
+        const todosResponse = await sheets.getTodos();
+        const usersResponse = await sheets.getUsers();
+
+        setTodos(todosResponse.data);
+        setUsers(usersResponse.data);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      }
+    }
+
+    loadData();
   }, []);
 
   const handleToggle = (id) => {
-    setTodos(prevTodos =>
-      prevTodos.map(todo =>
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
@@ -26,16 +37,12 @@ const Todos = () => {
       <Header title="Todos" />
       <FlatList
         data={todos}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
-          const user = users.find(u => u.id === item.userId);
+          const user = users.find((u) => u.id === item.userId);
 
           return (
-            <CardTodos
-              todo={item}
-              user={user}
-              onToggle={() => handleToggle(item.id)}
-            />
+            <CardTodos todo={item} user={user} onToggle={() => handleToggle(item.id)} />
           );
         }}
       />
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f7ecfbff',
+    backgroundColor: "#f7ecfbff",
   },
 });
 
