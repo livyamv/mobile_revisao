@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import api from '../services/axios';
-import Checkbox from 'expo-checkbox';
 import CardTodos from '../components/CardTodo';
+import Header from '../components/Header';
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
@@ -23,7 +23,7 @@ const Todos = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Todos</Text>
+      <Header title="Todos" />
       <FlatList
         data={todos}
         keyExtractor={item => item.id.toString()}
@@ -48,12 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#f7ecfbff',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 16,
   },
 });
 
