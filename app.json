@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "9b6b3a8a-0174-43ca-bcfe-159a0f60aced"
+      }
+    },
+    "android": {
+      "package": "com.liviareis.mobile_revisao"
+    }
+  }
+}

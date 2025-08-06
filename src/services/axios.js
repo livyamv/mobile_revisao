@@ -8,8 +8,8 @@ const api = axios.create({
 });
 
 const sheets = {
-  getUsers: () => api.get("users/"),    // corrigido endpoint correto para users
-  getTodos: () => api.get("todos/"),    // endpoint correto 'todos' e não 'todo'
+  getUsers: () => api.get("users/"),
+  getTodos: () => api.get("todos/"),
   getPosts: () => api.get("posts/"),
 };
 
